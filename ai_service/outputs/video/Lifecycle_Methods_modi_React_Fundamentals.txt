@@ -1,0 +1,1 @@
+Friends, pay attention! React components have a lifecycle. Lifecycle methods are special functions that run at key stages: component creation, updates, and removal. They give us power to perform actions like fetching data, updating the DOM, or cleaning up resources precisely. Truly essential for robust application control!

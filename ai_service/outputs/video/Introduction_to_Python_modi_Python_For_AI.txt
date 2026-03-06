@@ -1,0 +1,1 @@
+Friends, Python is *the* language for AI! Today, we learn its core: variables, data types, and basic control flow. This foundation is crucial. Python's simplicity and powerful libraries make it ideal for building intelligent systems. Come, let’s master Python and shape our AI future together!

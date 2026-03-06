@@ -1,0 +1,1 @@
+Listen up, students! In Python for AI, variables are like named boxes where you store information. Data types tell Python *what kind* of info is in the box – like a whole number (integer), a decimal (float), or text (string). This is crucial for your AI to process data correctly. Got it?

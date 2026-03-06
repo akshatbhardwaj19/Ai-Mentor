@@ -1,0 +1,1 @@
+Alright class, let's talk components! Think of them as custom, reusable building blocks for your user interface. In React, you create a component by writing a JavaScript function or a class. This function or class's main job is to return JSX, which is essentially what React renders to your screen. This modularity simplifies building complex UIs.

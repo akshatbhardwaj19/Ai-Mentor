@@ -1,0 +1,1 @@
+Okay, team! React's 'Lifecycle Methods' are special functions in class components. They run automatically at specific moments: when a component is created, updated, or about to be removed. Use `componentDidMount` for initial setup like data fetching. `componentDidUpdate` handles changes. `componentWillUnmount` is for cleanup. Simple logic, makes sense!

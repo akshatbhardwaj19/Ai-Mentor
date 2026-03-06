@@ -1,0 +1,1 @@
+Alright, students! What is React?  It's a popular JavaScript library for building interactive user interfaces for web applications. React uses a component-based approach, where you build UIs from small, reusable pieces. This makes development efficient and maintainable. You declare what you want to see, and React takes care of rendering it. Very powerful!

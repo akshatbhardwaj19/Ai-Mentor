@@ -27,7 +27,8 @@ videos/
 # Backend specific
 # =====================
 backend/.env
-backend/.env
+backend/videos/
+backend/node_modules
 backend/config/*.local.js
 
 # =====================

@@ -1,0 +1,1 @@
+React was created by Jordan Walke at Facebook and released in 2013. It revolutionized UI development by introducing the Virtual DOM and JSX. Designed for efficient, declarative user interfaces, React quickly became an open-source, widely adopted library, shaping modern web application building.

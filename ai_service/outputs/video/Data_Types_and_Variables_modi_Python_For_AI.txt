@@ -1,0 +1,1 @@
+Friends! In Python for AI, data types and variables are fundamental pillars. Variables are like containers, holding diverse information. Numbers, text, true/false values – these are our data types! Selecting the right type is absolutely crucial. It ensures your AI models process data efficiently, accurately, building powerful, intelligent systems for the future.

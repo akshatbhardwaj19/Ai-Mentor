@@ -8,6 +8,10 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
+// Track pending requests to avoid duplicate generation triggers
+const pendingRequests = new Set();
+
+
 router.post("/generate-video", async (req, res) => {
   try {
     const { course, celebrity, topic } = req.body;
@@ -37,9 +41,9 @@ router.post("/generate-video", async (req, res) => {
       return currentSize > 0;
     };
 
-    // Match the original logic in api.py: topic.replace(' ', '_')
-    // and the format: {topic_with_underscores}_{celebrity}_{course}.mp4
-    const videoFileName = `${topic.replace(/\s+/g, '_')}_${celebrity}_${course.replace(/\s+/g, '_')}.mp4`;
+    // Sanitise names to be safe for Windows filenames (remove ?, :, *, etc.)
+    const sanitise = (s) => s.replace(/[^\w-]/g, '_');
+    const videoFileName = `${sanitise(topic)}_${sanitise(celebrity)}_${sanitise(course)}.mp4`;
 
     console.log(`Requested Video: ${videoFileName}`);
 
@@ -56,13 +60,36 @@ router.post("/generate-video", async (req, res) => {
       fs.mkdirSync(backendVideosFolder, { recursive: true });
     }
 
+    const txtFileName = videoFileName.replace(".mp4", ".txt");
+    const backendTxtPath = path.join(backendVideosFolder, txtFileName);
+    const aiServiceTxtPath = path.join(__dirname, "../../ai_service/outputs/video", txtFileName);
+
+    const getAndCacheTranscript = async () => {
+      let transcript = null;
+      try {
+        if (fs.existsSync(backendTxtPath)) {
+          transcript = await fs.promises.readFile(backendTxtPath, "utf-8");
+          console.log("📝 Transcript loaded from backend cache");
+        } else if (fs.existsSync(aiServiceTxtPath)) {
+          transcript = await fs.promises.readFile(aiServiceTxtPath, "utf-8");
+          await fs.promises.copyFile(aiServiceTxtPath, backendTxtPath);
+          console.log("📝 Transcript found in AI service, cached and loaded");
+        }
+      } catch (err) {
+        console.error("Failed to process transcript:", err);
+      }
+      return transcript;
+    };
+
     // 1. Check if video already exists in backend/videos (Cache hit)
     if (fs.existsSync(backendVideoPath)) {
       console.log("✅ Video found in backend cache!");
+      const transcript = await getAndCacheTranscript();
       return res.json({
         status: "success",
         message: "Video retrieved from cache",
         videoUrl: `http://localhost:5000/videos/${videoFileName}`,
+        transcript,
         topic,
         celebrity,
       });
@@ -73,10 +100,12 @@ router.post("/generate-video", async (req, res) => {
       console.log("✅ Video found in AI service outputs, verifying stability...");
       if (await waitForFileStability(aiServiceVideoPath)) {
         await fs.promises.copyFile(aiServiceVideoPath, backendVideoPath);
+        const transcript = await getAndCacheTranscript();
         return res.json({
           status: "success",
           message: "Video generated successfully",
           videoUrl: `http://localhost:5000/videos/${videoFileName}`,
+          transcript,
           topic,
           celebrity,
         });
@@ -84,28 +113,44 @@ router.post("/generate-video", async (req, res) => {
     }
 
     // 3. If not found, trigger generation
-    console.log("🚀 Triggering new video generation...");
-    const ai_service_url = `http://127.0.0.1:8000/generate`;
+    if (pendingRequests.has(videoFileName)) {
+      console.log(`⏳ Request for ${videoFileName} is already in progress. Polling instead of triggering...`);
+    } else {
+      pendingRequests.add(videoFileName);
+      console.log(`🚀 Triggering new video generation for: ${videoFileName}`);
+      const ai_service_url = `http://127.0.0.1:8000/generate`;
 
-    try {
-      const aiResponse = await fetch(ai_service_url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ course, topic, celebrity }),
-      });
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000);
 
-      if (!aiResponse.ok) {
-        const errorData = await aiResponse.json().catch(() => ({}));
-        throw new Error(errorData.detail || `AI service returned status ${aiResponse.status}`);
+        const aiResponse = await fetch(ai_service_url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ course, topic, celebrity }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!aiResponse.ok) {
+          const errorData = await aiResponse.json().catch(() => ({}));
+          throw new Error(errorData.detail || `AI service returned status ${aiResponse.status}`);
+        }
+
+        console.log("AI service accepted request or completed. Polling for results...");
+      } catch (aiError) {
+        if (aiError.name === 'AbortError') {
+          console.warn("⚠️ AI Service request timed out, but proceeding to poll...");
+        } else {
+          pendingRequests.delete(videoFileName);
+          console.error("❌ AI Service Error:", aiError.message);
+          return res.status(500).json({
+            error: "AI Service Unavailable",
+            message: aiError.message
+          });
+        }
       }
-
-      console.log("AI service accepted request. Polling for results...");
-    } catch (aiError) {
-      console.error("❌ AI Service Error:", aiError.message);
-      return res.status(500).json({
-        error: "AI Service Unavailable",
-        message: aiError.message
-      });
     }
 
     // 4. Poll for the file
@@ -119,10 +164,14 @@ router.post("/generate-video", async (req, res) => {
         if (await waitForFileStability(aiServiceVideoPath)) {
           console.log("✅ Video generation complete and file verified!");
           await fs.promises.copyFile(aiServiceVideoPath, backendVideoPath);
+          const transcript = await getAndCacheTranscript();
+
+          pendingRequests.delete(videoFileName);
           return res.json({
             status: "success",
             message: "Video generated successfully",
             videoUrl: `http://localhost:5000/videos/${videoFileName}`,
+            transcript,
             topic,
             celebrity,
           });
@@ -134,13 +183,15 @@ router.post("/generate-video", async (req, res) => {
       if (elapsed % 15000 === 0) console.log(`Polling... ${elapsed / 1000}s elapsed`);
     }
 
-    // 5. Timeout
+    // 5. Cleanup and Timeout
+    pendingRequests.delete(videoFileName);
     return res.status(408).json({
       error: "Video generation timeout",
       message: "Generation is taking longer than expected. The video will be available soon in your library.",
     });
 
   } catch (error) {
+    pendingRequests.delete(videoFileName);
     console.error("🔥 Route Error:", error);
     if (!res.headersSent) {
       res.status(500).json({

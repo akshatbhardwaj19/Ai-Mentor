@@ -1,0 +1,1 @@
+Alright, let's learn about Props in React. Props are how parent components pass data down to their children. Think of them like arguments for a function, making components reusable and dynamic. Importantly, props are read-only; child components cannot modify the data they receive. This ensures unidirectional data flow.

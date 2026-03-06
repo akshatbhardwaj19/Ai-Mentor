@@ -1,0 +1,1 @@
+Alright class, in Python for AI, we handle tons of data. NumPy is essential! It gives us powerful, efficient arrays to store and manipulate numerical data like images or datasets. This library makes computations incredibly fast, which is crucial for training AI models. NumPy truly simplifies complex data operations, making your AI journey smoother.
