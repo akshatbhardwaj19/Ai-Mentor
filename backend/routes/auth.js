@@ -1,7 +1,9 @@
-import express from "express";
+import crypto from "crypto";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import express from "express";
+import { Op } from "sequelize";
 
 const router = express.Router();
 
@@ -59,9 +61,19 @@ router.post("/login", async (req, res) => {
         .json({ message: "Email and password are required" });
     }
 
+    console.log("Login attempt for email:", email);
     const user = await User.findOne({ where: { email } });
 
-    if (user && user.password && (await user.matchPassword(password))) {
+    if (!user) {
+      console.log("User not found in DB.");
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const isMatch = await user.matchPassword(password);
+    console.log("Password match result:", isMatch);
+
+    if (user && user.password && isMatch) {
+      console.log("Login successful!");
       res.json({
         id: user.id,
         firstName: user.firstName,
@@ -74,6 +86,7 @@ router.post("/login", async (req, res) => {
         token: generateToken(user.id),
       });
     } else {
+      console.log("Login failed: password mismatch.");
       res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
@@ -127,6 +140,103 @@ router.post("/google-login", async (req, res) => {
   } catch (error) {
     console.error("Google login error:", error);
     res.status(500).json({ message: "Google login failed" });
+  }
+});
+
+import sendEmail from "../utils/sendEmail.js";
+
+// ================= FORGOT PASSWORD =================
+router.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    // Hash token and set to resetPasswordToken field
+    user.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    // Set expiry (1 hour)
+    user.resetPasswordExpires = Date.now() + 3600000;
+
+    await user.save();
+
+    // Create reset URL (Frontend URL)
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+
+    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a POST request to: \n\n ${resetUrl}`;
+
+    const html = `
+      <h1>Password Reset Request</h1>
+      <p>You are receiving this email because you (or someone else) has requested the reset of a password for your account.</p>
+      <p>Please click on the link below to reset your password:</p>
+      <a href="${resetUrl}" clicktracking=off>${resetUrl}</a>
+      <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+    `;
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "Password Reset Token",
+        message,
+        html,
+      });
+
+      res.status(200).json({ message: "Email sent" });
+    } catch (err) {
+      console.error("Email could not be sent", err);
+      user.resetPasswordToken = null;
+      user.resetPasswordExpires = null;
+      await user.save();
+      return res.status(500).json({ message: "Email could not be sent" });
+    }
+  } catch (error) {
+    console.error("Forgot Password Error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+// ================= RESET PASSWORD =================
+router.post("/reset-password/:token", async (req, res) => {
+  const { password } = req.body;
+
+  try {
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(req.params.token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      where: {
+        resetPasswordToken: hashedToken,
+        resetPasswordExpires: { [Op.gt]: Date.now() },
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    // Set new password (use set for reliable change detection)
+    user.set("password", password);
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Reset Password Error:", error);
+    res.status(500).json({ message: "Server Error" });
   }
 });
 

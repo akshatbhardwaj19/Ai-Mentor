@@ -71,6 +71,12 @@ const LoginPage = () => {
         <FormInput label="Email Address" type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <FormInput label="Password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} />
 
+        <div className="flex justify-end">
+          <Link to="/forgot-password" size="sm" className="text-xs font-semibold text-teal-600 hover:text-teal-500 transition-colors">
+            Forgot Password?
+          </Link>
+        </div>
+
         <button type="submit" className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-teal-400 text-white font-black shadow-lg hover:scale-[1.02] transition-all">
           LOG IN
         </button>
