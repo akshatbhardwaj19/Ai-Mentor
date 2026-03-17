@@ -19,20 +19,34 @@ const getCourses = async (req, res) => {
     const rawData = fs.readFileSync(coursesPath, "utf-8");
     const jsonData = JSON.parse(rawData);
 
-    const courses = (jsonData.popularCourses || []).map((course) => ({
+    const allCoursesRaw = [
+      ...(jsonData.popularCourses || []),
+      ...(jsonData.courseCards || []),
+    ];
+
+    // Deduplicate by ID
+    const uniqueCoursesMap = new Map();
+    allCoursesRaw.forEach((course) => {
+      if (!uniqueCoursesMap.has(course.id)) {
+        uniqueCoursesMap.set(course.id, course);
+      }
+    });
+
+    const courses = Array.from(uniqueCoursesMap.values()).map((course) => ({
       id: course.id,
       title: course.title,
-      category: course.category,
+      category: course.category || "General",
       level: course.level,
       lessons: course.lessons,
-      lessonsCount: course.lessonsCount ||
+      lessonsCount:
+        course.lessonsCount ||
         (course.lessons.includes(" of ")
           ? parseInt(course.lessons.split(" of ")[1])
           : parseInt(course.lessons.split(" ")[0])),
       price: course.price,
-      rating: course.rating,
-      students: course.students,
-      image: course.image,
+      rating: course.rating || 0,
+      students: course.students || "0 students",
+      image: course.image || course.backgroundImage,
     }));
 
     res.json(courses);
@@ -55,7 +69,12 @@ const getCourseById = async (req, res) => {
     const rawData = fs.readFileSync(coursesPath, "utf-8");
     const jsonData = JSON.parse(rawData);
 
-    const course = jsonData.popularCourses.find(
+    const allCoursesRaw = [
+      ...(jsonData.popularCourses || []),
+      ...(jsonData.courseCards || []),
+    ];
+
+    const course = allCoursesRaw.find(
       (c) => c.id === Number(req.params.id)
     );
 
@@ -95,10 +114,23 @@ const getMyCourses = async (req, res) => {
     const rawData = fs.readFileSync(coursesPath, "utf-8");
     const jsonData = JSON.parse(rawData);
 
+    const allCoursesRaw = [
+      ...(jsonData.popularCourses || []),
+      ...(jsonData.courseCards || []),
+    ];
+
+    // Deduplicate by ID
+    const uniqueCoursesMap = new Map();
+    allCoursesRaw.forEach((course) => {
+      if (!uniqueCoursesMap.has(course.id)) {
+        uniqueCoursesMap.set(course.id, course);
+      }
+    });
+
     const purchasedIds =
       req.user.purchasedCourses?.map((c) => Number(c.courseId)) || [];
 
-    const myCourses = (jsonData.popularCourses || [])
+    const myCourses = Array.from(uniqueCoursesMap.values())
       .filter((course) => purchasedIds.includes(course.id))
       .map((course) => ({
         id: course.id,

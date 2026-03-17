@@ -997,5 +997,208 @@
         ]
       }
     }
+  },
+  "5": {
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Module 1: Introduction to Java",
+        "lessons": [
+          {
+            "id": "what-is-java",
+            "title": "What is Java?",
+            "duration": "10 min",
+            "completed": false,
+            "playing": true,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=eIrMbAQSU34"
+          },
+          {
+            "id": "history-of-java",
+            "title": "History of Java",
+            "duration": "12 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=grEKMHGYyns"
+          },
+          {
+            "id": "installing-java",
+            "title": "Installing JDK and Setup",
+            "duration": "8 min",
+            "completed": false,
+            "playing": false,
+            "type": "document"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Module 2: Java Basics",
+        "lessons": [
+          {
+            "id": "java-syntax",
+            "title": "Java Syntax and Structure",
+            "duration": "15 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=UmnCZ7-9yDY"
+          },
+          {
+            "id": "variables-datatypes",
+            "title": "Variables and Data Types",
+            "duration": "14 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=Qgl81fPcLc8"
+          },
+          {
+            "id": "operators-java",
+            "title": "Operators in Java",
+            "duration": "13 min",
+            "completed": false,
+            "playing": false,
+            "type": "document"
+          }
+        ]
+      },
+      {
+        "id": "module-3",
+        "title": "Module 3: Control Flow",
+        "lessons": [
+          {
+            "id": "if-else-java",
+            "title": "If Else Statements",
+            "duration": "16 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=ldYLYRNaucM"
+          },
+          {
+            "id": "loops-java",
+            "title": "Loops in Java",
+            "duration": "18 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=xk4_1vDrzzo"
+          },
+          {
+            "id": "switch-statement",
+            "title": "Switch Statement",
+            "duration": "10 min",
+            "completed": false,
+            "playing": false,
+            "type": "document"
+          }
+        ]
+      },
+      {
+        "id": "module-4",
+        "title": "Module 4: Object Oriented Programming",
+        "lessons": [
+          {
+            "id": "classes-objects",
+            "title": "Classes and Objects",
+            "duration": "20 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=BSVKUk58K6U"
+          },
+          {
+            "id": "inheritance-java",
+            "title": "Inheritance",
+            "duration": "17 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=YqZ0Fh5QdJk"
+          },
+          {
+            "id": "polymorphism-java",
+            "title": "Polymorphism",
+            "duration": "16 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=0x8Dap2EIVE"
+          }
+        ]
+      },
+      {
+        "id": "module-5",
+        "title": "Module 5: Exception Handling",
+        "lessons": [
+          {
+            "id": "try-catch",
+            "title": "Try Catch Blocks",
+            "duration": "14 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=1XAfapkBQjk"
+          },
+          {
+            "id": "throw-throws",
+            "title": "Throw and Throws",
+            "duration": "12 min",
+            "completed": false,
+            "playing": false,
+            "type": "video",
+            "youtubeUrl": "https://www.youtube.com/watch?v=-_qRz2a7kUA"
+          },
+          {
+            "id": "incremental-backup",
+            "title": "Incremental Backup",
+            "duration": "11 min",
+            "completed": false,
+            "type": "document"
+          }
+        ]
+      }
+    ],
+    "course": {
+      "title": "Java Programming",
+      "subtitle": "Complete Course",
+      "logo": "/AI_Tutor_New_UI/Dashboard/java_programming.png",
+      "progress": 30
+    },
+    "currentLesson": {
+      "id": "what-is-java",
+      "title": "What is Java?",
+      "module": "Module 1: Introduction to Java",
+      "youtubeUrl": "https://www.youtube.com/watch?v=eIrMbAQSU34",
+      "content": {
+        "introduction": "Java is a widely used object-oriented programming language used for building web applications, mobile apps, and enterprise systems.",
+        "keyConcepts": [
+          {
+            "title": "Platform Independent",
+            "description": "Java programs run on JVM allowing them to work on multiple operating systems.",
+            "borderColor": "border-[#60A5FA]",
+            "bgColor": "bg-white",
+            "textColor": "text-black"
+          },
+          {
+            "title": "Object Oriented",
+            "description": "Java is based on object-oriented principles like encapsulation, inheritance, and polymorphism.",
+            "borderColor": "border-[#C084FC]",
+            "bgColor": "bg-white",
+            "textColor": "text-black"
+          },
+          {
+            "title": "JVM",
+            "description": "Java Virtual Machine executes Java bytecode and enables platform independence.",
+            "borderColor": "border-[#22D3EE]",
+            "bgColor": "bg-[#1F2937]",
+            "textColor": "text-white",
+            "descriptionColor": "text-[#D1D5DB]"
+          }
+        ]
+      }
+    }
   }
 }

@@ -5,7 +5,11 @@
       "title": "Generative AI & Machine Learning Fundamentals",
       "subtitle": "Master ChatGPT, Midjourney, and AI automation tools for next-gen productivity",
       "instructor": "Dr. Sarah Chen",
-      "tags": ["Bestseller", "Beginner-Friendly", "AI-Generated Content"],
+      "tags": [
+        "Bestseller",
+        "Beginner-Friendly",
+        "AI-Generated Content"
+      ],
       "lastUpdated": "12/2024",
       "language": "English",
       "subtitles": true,
@@ -25,10 +29,22 @@
         "seconds": 10
       },
       "features": [
-        { "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg", "text": "Lifetime access" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg", "text": "Access on mobile and desktop" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg", "text": "Certificate of completion" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg", "text": "30-day money-back guarantee" }
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg",
+          "text": "Lifetime access"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg",
+          "text": "Access on mobile and desktop"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg",
+          "text": "Certificate of completion"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg",
+          "text": "30-day money-back guarantee"
+        }
       ],
       "whatYouLearn": [
         "Understand AI, Generative AI, and Machine Learning fundamentals",
@@ -93,7 +109,11 @@
       "title": "Full Stack Web Development",
       "subtitle": "Build complete web applications using React, Node.js, and modern databases",
       "instructor": "Prof. Michael Johnson",
-      "tags": ["Popular", "Hands-On", "Job-Ready"],
+      "tags": [
+        "Popular",
+        "Hands-On",
+        "Job-Ready"
+      ],
       "lastUpdated": "11/2024",
       "language": "English",
       "subtitles": true,
@@ -113,10 +133,22 @@
         "seconds": 45
       },
       "features": [
-        { "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg", "text": "Lifetime access" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg", "text": "Access on mobile and desktop" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg", "text": "Certificate of completion" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg", "text": "30-day money-back guarantee" }
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg",
+          "text": "Lifetime access"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg",
+          "text": "Access on mobile and desktop"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg",
+          "text": "Certificate of completion"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg",
+          "text": "30-day money-back guarantee"
+        }
       ],
       "whatYouLearn": [
         "Master HTML, CSS, and JavaScript fundamentals",
@@ -150,7 +182,11 @@
             "Routing and Navigation",
             "React Context and Redux Toolkit"
           ],
-          "tools": ["React DevTools", "Vite", "Redux Toolkit"],
+          "tools": [
+            "React DevTools",
+            "Vite",
+            "Redux Toolkit"
+          ],
           "activity": "Develop an e-commerce frontend"
         },
         {
@@ -162,7 +198,11 @@
             "Database Integration (MongoDB & PostgreSQL)",
             "Authentication with JWT"
           ],
-          "tools": ["Postman", "MongoDB Compass", "Railway.app"],
+          "tools": [
+            "Postman",
+            "MongoDB Compass",
+            "Railway.app"
+          ],
           "assignment": "Build a full-stack CRUD application"
         }
       ]
@@ -172,7 +212,11 @@
       "title": "Data Analytics Masterclass",
       "subtitle": "Transform raw data into actionable insights using Python, SQL, and BI tools",
       "instructor": "Dr. Emily Rodriguez",
-      "tags": ["Advanced", "Data-Driven", "Industry-Relevant"],
+      "tags": [
+        "Advanced",
+        "Data-Driven",
+        "Industry-Relevant"
+      ],
       "lastUpdated": "10/2024",
       "language": "English",
       "subtitles": true,
@@ -192,10 +236,22 @@
         "seconds": 30
       },
       "features": [
-        { "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg", "text": "Lifetime access" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg", "text": "Access on mobile and desktop" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg", "text": "Certificate of completion" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg", "text": "30-day money-back guarantee" }
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg",
+          "text": "Lifetime access"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg",
+          "text": "Access on mobile and desktop"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg",
+          "text": "Certificate of completion"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg",
+          "text": "30-day money-back guarantee"
+        }
       ],
       "whatYouLearn": [
         "Perform data cleaning and preprocessing",
@@ -215,7 +271,10 @@
             "Missing data handling",
             "Basic data visualization"
           ],
-          "activities": ["Clean a real dataset", "Visualize key metrics using Python"]
+          "activities": [
+            "Clean a real dataset",
+            "Visualize key metrics using Python"
+          ]
         },
         {
           "title": "Module 2: SQL & Statistical Analysis",
@@ -225,7 +284,11 @@
             "Descriptive and inferential statistics",
             "Correlation and regression analysis"
           ],
-          "tools": ["Python", "MySQL", "Jupyter Notebook"],
+          "tools": [
+            "Python",
+            "MySQL",
+            "Jupyter Notebook"
+          ],
           "assignment": "Analyze a dataset using SQL and Python"
         },
         {
@@ -237,7 +300,11 @@
             "Storytelling with Data",
             "Introduction to Power BI & Tableau"
           ],
-          "tools": ["Tableau", "Power BI", "Plotly"],
+          "tools": [
+            "Tableau",
+            "Power BI",
+            "Plotly"
+          ],
           "activity": "Build a data-driven business dashboard"
         }
       ]
@@ -247,7 +314,11 @@
       "title": "Machine Learning Fundamentals",
       "subtitle": "Understand and implement key ML algorithms from scratch using Python",
       "instructor": "Dr. Alex Chen",
-      "tags": ["AI", "Mathematics", "Practical"],
+      "tags": [
+        "AI",
+        "Mathematics",
+        "Practical"
+      ],
       "lastUpdated": "09/2024",
       "language": "English",
       "subtitles": true,
@@ -267,10 +338,22 @@
         "seconds": 20
       },
       "features": [
-        { "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg", "text": "Lifetime access" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg", "text": "Access on mobile and desktop" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg", "text": "Certificate of completion" },
-        { "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg", "text": "30-day money-back guarantee" }
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/lifetimeaccess_icon.svg",
+          "text": "Lifetime access"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/mobile.svg",
+          "text": "Access on mobile and desktop"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/certificate.svg",
+          "text": "Certificate of completion"
+        },
+        {
+          "icon": "AI_Tutor_New_UI/Course_Preview/moneyback.svg",
+          "text": "30-day money-back guarantee"
+        }
       ],
       "whatYouLearn": [
         "Understand core ML concepts and types of learning",
@@ -289,7 +372,10 @@
             "Evaluation metrics",
             "Bias-Variance tradeoff"
           ],
-          "activities": ["Implement a simple linear regression model", "Compare accuracy of algorithms"]
+          "activities": [
+            "Implement a simple linear regression model",
+            "Compare accuracy of algorithms"
+          ]
         },
         {
           "title": "Module 2: Supervised Learning",
@@ -299,7 +385,11 @@
             "Decision Trees & Random Forests",
             "Support Vector Machines"
           ],
-          "tools": ["Scikit-learn", "Pandas", "Jupyter Notebook"],
+          "tools": [
+            "Scikit-learn",
+            "Pandas",
+            "Jupyter Notebook"
+          ],
           "assignment": "Predict housing prices using regression models"
         },
         {
@@ -310,7 +400,10 @@
             "Dimensionality Reduction (PCA)",
             "Introduction to Neural Networks"
           ],
-          "tools": ["TensorFlow", "Keras"],
+          "tools": [
+            "TensorFlow",
+            "Keras"
+          ],
           "activity": "Build an image classification model"
         }
       ]

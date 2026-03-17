@@ -61,6 +61,21 @@
       "backgroundImage": null,
       "buttonStyle": "bg-gray-100 text-gray-600",
       "buttonText": "Review Course"
+    },
+    {
+      "id": 4,
+      "title": "Java Programming",
+      "status": "In Progress",
+      "progress": 30,
+      "lessons": "6 of 20 lessons",
+      "level": "Intermediate",
+  
+      "levelColor": "bg-orange-100 text-orange-600",
+      "backgroundGradient": "from-orange-400 to-red-500",
+      "backgroundImage": null,
+      "image": "/AI_Tutor_New_UI/Dashboard/java_programming.png",
+      "buttonStyle": "bg-gradient-to-r from-orange-500 to-red-500 text-white",
+      "buttonText": "Continue Learning"
     }
   ],
   "popularCourses": [
@@ -147,6 +162,27 @@
       "subtopics": [],
       "createdAt": "2026-03-14T00:00:00.000Z",
       "updatedAt": "2026-03-14T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Java Programming",
+      "category": "Programming",
+      "categoryColor": "bg-orange-100 text-orange-600",
+      "lessons": "20 lessons",
+      "lessonsCount": 20,
+      "level": "Intermediate",
+      "price": "₹2499",
+      "priceValue": 2499,
+      "currency": "INR",
+      "rating": 4.6,
+      "students": "1.2k students",
+      "studentsCount": 1200,
+      "image": "/AI_Tutor_New_UI/Dashboard/java_programming.png",
+      "isBookmarked": false,
+      "modules": [],
+      "subtopics": [],
+      "createdAt": "2026-03-13T00:00:00.000Z",
+      "updatedAt": "2026-03-13T00:00:00.000Z"
     }
   ]
 }

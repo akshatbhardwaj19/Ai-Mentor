@@ -172,8 +172,8 @@ const updateCourseProgress = async (req, res) => {
 
       if (lessonData && lessonData.lessonId) {
         progress.lessonData[lessonData.lessonId] = {
-           ...progress.lessonData[lessonData.lessonId],
-           ...lessonData.data
+          ...progress.lessonData[lessonData.lessonId],
+          ...lessonData.data
         };
       }
 
@@ -187,7 +187,7 @@ const updateCourseProgress = async (req, res) => {
 
       courses[courseIndex].progress = progress;
       user.set('purchasedCourses', courses);
-      
+
       // --- DATABASE JSON FIX FOR THE TEAM ---
       // Sequelize does not automatically detect mutations inside deeply nested JSONB fields.
       // We MUST explicitly call user.changed('fieldName', true) to force it to execute an UPDATE query.
@@ -238,7 +238,7 @@ const getWatchedVideos = async (req, res) => {
           // --- WATCH HISTORY SANITIZATION FOR THE TEAM ---
           // Prevent UI crashes from previously corrupted data by bounding progress between 0 and 100%.
           const safeProgress = Math.max(0, Math.min(100, Math.round(watchHistory.progressPercent || 0)));
-          
+
           // Fallback to --:-- if the database stored "NaN:NaN" due to browser loading race conditions.
           const rawDuration = watchHistory.formattedDuration;
           const displayDuration = (rawDuration === "NaN:NaN" || !rawDuration) ? "--:--" : rawDuration;
@@ -261,7 +261,7 @@ const getWatchedVideos = async (req, res) => {
             totalSeconds += watchHistory.currentTime;
           }
           if (watchHistory.status === "completed" || safeProgress >= 95) {
-             completedCount++;
+            completedCount++;
           }
         }
       });
