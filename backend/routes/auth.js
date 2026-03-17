@@ -108,6 +108,70 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// ================= ADMIN LOGIN =================
+router.post("/admin-login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
+
+    console.log("Admin login attempt for email:", email);
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      console.log("Admin user not found in DB.");
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    if (user.role !== "admin") {
+      console.log("User is not an admin.");
+      return res.status(403).json({ message: "Access denied. Admins only." });
+    }
+
+    const isMatch = await user.matchPassword(password);
+    console.log("Admin Password match result:", isMatch);
+
+    if (user && user.password && isMatch) {
+      console.log("Admin login successful!");
+      res.json({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        bio: user.bio,
+        purchasedCourses: user.purchasedCourses,
+        token: generateToken(user.id),
+      });
+
+      // ✅ Notification Trigger (Security Alert)
+      import("../controllers/notificationController.js")
+        .then(({ createNotification }) => {
+          createNotification(user.id, {
+            title: "Admin Login Detected",
+            message: `A new admin login was detected for your account at ${new Date().toLocaleString()}.`,
+            type: "security",
+          });
+        })
+        .catch((error) => {
+          console.error("Failed to load notificationController or send login notification:", error);
+        });
+    } else {
+      console.log("Admin login failed: password mismatch.");
+      res.status(401).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    console.error("Admin Login Error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+
 // ================= GOOGLE LOGIN =================
 router.post("/google-login", async (req, res) => {
   try {

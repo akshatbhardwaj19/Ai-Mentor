@@ -1,4 +1,6 @@
 # AI Mentor — Learning Platform
+# .\venv\Scripts\activate
+# uvicorn api:app --reload --host 127.0.0.1 --port 8000
 
 An AI-powered learning management system with course management, analytics, community discussions, and AI-generated video lessons.
 

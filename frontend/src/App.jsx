@@ -14,6 +14,7 @@ import WatchedVideos from "./pages/WatchedVideos";
 import CoursePreview from "./pages/CoursePreview";
 import LearningPage from "./pages/LearningPage";
 import AdminPage from "./pages/AdminPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import "./App.css";
@@ -39,6 +40,7 @@ const App = () => {
       {/* Public routes that logged-in users should not see */}
       <Route element={<PublicRoutes />}>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin-login" element={<AdminLoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />

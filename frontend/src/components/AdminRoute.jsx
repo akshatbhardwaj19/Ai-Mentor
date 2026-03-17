@@ -6,7 +6,7 @@ const AdminRoute = () => {
   const { user, isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/admin-login" replace />;
   }
 
   if (user?.role === "admin") {
