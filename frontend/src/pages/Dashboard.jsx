@@ -451,7 +451,7 @@ const Dashboard = () => {
                     </Link>
                   ))}
                 </div>
-              </div> */}
+              </div>
 
               {/* My Courses Table */}
               <div className="xl:col-span-2 flex flex-col">
@@ -719,8 +719,7 @@ const Dashboard = () => {
                     </table>
                   </div>
                 </div>
-              </div> */}
-
+              </div> 
             </div>
 
           </div>
