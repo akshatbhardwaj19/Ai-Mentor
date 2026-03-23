@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
+import DashboardLayout from "./components/DashboardLayout";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
@@ -44,15 +45,17 @@ const App = () => {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Route>
 
-      {/* Protected Routes */}
+      {/* Protected Routes with shared Header + Sidebar layout */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/courses" element={<CoursesPage />} />
-        <Route path="/discussions" element={<DiscussionsPage />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/watchedvideos" element={<WatchedVideos />} />
-        <Route path="/learning/:id" element={<LearningPage />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/discussions" element={<DiscussionsPage />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/watchedvideos" element={<WatchedVideos />} />
+          <Route path="/learning/:id" element={<LearningPage />} />
+        </Route>
       </Route>
 
       {/* Admin Routes */}

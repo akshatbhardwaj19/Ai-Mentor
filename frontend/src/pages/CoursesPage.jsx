@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import { Star, Bookmark, X, BookOpen, Search } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useSidebar } from "../context/SidebarContext";
@@ -19,24 +17,10 @@ const CoursesPage = () => {
   const [exploreCourses, setExploreCourses] = useState([]);
   const [myCourses, setMyCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [showEnrollPopup, setShowEnrollPopup] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
-
-  const [showExploreFilter, setShowExploreFilter] = useState(false);
-  const [selectedExploreCategory, setSelectedExploreCategory] = useState("all");
-
-  const exploreCategories = [
-  "all",
-  ...new Set(exploreCourses.map((course) => course.category))
-  ];
-
-  const filteredExploreCourses =
-  selectedExploreCategory === "all"
-    ? exploreCourses
-    : exploreCourses.filter(
-        (course) => course.category === selectedExploreCategory
-      );
 
   /* ================= FETCH COURSES ================= */
   useEffect(() => {
@@ -127,18 +111,9 @@ const CoursesPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-canvas-alt flex flex-col">
-      <Header />
-
-      <Sidebar activePage="courses" />
-
-      <div
-        className={`flex-1 flex flex-col transition-all duration-300 mt-10 ${
-          sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
-        }`}
-      >
+    <>
         {/* ══════ HERO ══════ */}
-        <div className="relative overflow-hidden bg-linear-to-br from-teal-700 via-teal-600 to-teal-800 pt-16 pb-12 px-4 sm:px-8">
+        <div className="relative overflow-hidden bg-gradient-to-br from-teal-700 via-teal-600 to-teal-800 pt-16 pb-12 px-4 sm:px-8">
           {/* grid pattern overlay */}
           <div
             className="absolute inset-0 opacity-10"
@@ -165,8 +140,8 @@ const CoursesPage = () => {
                 </p>
               </div>
             </div>
-            {/* Tabs */}
-            <div className="flex justify-center gap-3">
+            {/* Tabs + Search */}
+            <div className="flex items-center justify-start gap-3">
               <button
                 onClick={() => setActiveTab("my-courses")}
                 className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-all ${
@@ -189,6 +164,18 @@ const CoursesPage = () => {
                 <Search className="w-4 h-4" />
                 {t("courses.explore")}
               </button>
+
+              {/* Search Bar */}
+              <div className="relative group max-w-xs w-60 hidden md:block">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50 group-focus-within:text-teal-300 transition-colors w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder={t("header.search_placeholder")}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-black/30 border border-white/20 rounded-full text-sm text-white placeholder-white/50 focus:ring-2 focus:ring-teal-400/30 focus:border-teal-400 transition-all outline-none"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -200,12 +187,12 @@ const CoursesPage = () => {
             {activeTab === "my-courses" && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {myCourses.length === 0 && (
-                  <p className="text-slate-500 col-span-full text-center">
+                  <p className="text-slate-500">
                     {t("courses.not_enrolled")}
                   </p>
                 )}
 
-                {myCourses.map((course) => {
+                {myCourses.filter((course) => course.title.toLowerCase().includes(searchQuery.toLowerCase())).map((course) => {
                   const purchasedEntry = user?.purchasedCourses?.find(
                     (c) => Number(c.courseId) === Number(course.id)
                   );
@@ -246,132 +233,63 @@ const CoursesPage = () => {
             )}
 
             {/* ================= EXPLORE COURSES ================= */}
-          {activeTab === "explore" && (
-              <div className="space-y-6">
-
-                  {/* FILTER BUTTON */}
-                  <div className="relative flex justify-end text-slate-500">
-                    <button
-                      type="button"
-                      onClick={() => setShowExploreFilter(!showExploreFilter)}
-                      aria-label="Toggle explore filters"
-                      aria-expanded={showExploreFilter}
-                      aria-controls="explore-filter-menu"
+            {activeTab === "explore" && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {exploreCourses
+                  .filter(
+                    (course) => !myCourses.some((c) => c.id === course.id)
+                  )
+                  .filter((course) => course.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map((course) => (
+                    <div
+                      key={course.id}
+                      className="bg-card rounded-3xl border border-border overflow-hidden shadow-sm"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-8 h-8 text-slate-500 cursor-pointer hover:text-teal-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 4h18l-7 8v6l-4 2v-8L3 4z"
+                      <div className="relative h-40">
+                        <img
+                          src={course.image}
+                          className="w-full h-full object-cover"
+                          alt={course.title}
                         />
-                      </svg>
-                    </button>
-
-                    {showExploreFilter && (
-                      <div
-                        id="explore-filter-menu"
-                        className="absolute right-0 mt-10 bg-white border rounded-lg shadow-xl p-2 z-50 min-w-[150px]"
-                      >
-                        {exploreCategories.map((cat) => (
-                          <button
-                            key={cat}
-                            onClick={() => {
-                              setSelectedExploreCategory(cat);
-                              setShowExploreFilter(false);
-                            }}
-                            className={`block w-full text-left px-4 py-2 rounded hover:bg-teal-500 hover:text-white capitalize ${
-                              selectedExploreCategory === cat
-                                ? "font-bold text-teal-600"
-                                : ""
-                            }`}
-                          >
-                            {cat}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* COURSE GRID */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {(() => {
-                      const visibleExploreCourses = filteredExploreCourses.filter(
-                        (course) => !myCourses.some((c) => c.id === course.id)
-                      );
-
-                      if (visibleExploreCourses.length === 0) {
-                        return (
-                          <div className="col-span-full flex flex-col items-center justify-center py-12 text-center text-slate-500">
-                            <p className="mb-4 text-sm">
-                              No courses found for this category.
-                            </p>
-                            <button
-                              type="button"
-                              onClick={() => setSelectedExploreCategory(exploreCategories[0])}
-                              className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#2DD4BF] text-white"
-                            >
-                              Reset filters
-                            </button>
-                          </div>
-                        );
-                      }
-
-                      return visibleExploreCourses.map((course) => (
-                        <div
-                          key={course.id}
-                          className="bg-card rounded-3xl border border-border overflow-hidden shadow-sm"
-                        >
-                          <div className="relative h-40">
-                            <img
-                              src={course.image}
-                              className="w-full h-full object-cover"
-                              alt={course.title}
-                            />
-                            <div className="absolute bottom-3 right-3 bg-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow">
-                              <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                              {course.rating}
-                            </div>
-                          </div>
-
-                          <div className="p-4 space-y-3">
-                            <h3 className="text-sm font-semibold">{course.title}</h3>
-
-                            <p className="text-xs text-muted">
-                              {course.lessons} lessons • {course.level}
-                            </p>
-
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <span className="line-through text-sm text-slate-400 mr-2">
-                                  {course.price}
-                                </span>
-                                <span className="font-bold text-green-600">₹0</span>
-                              </div>
-
-                              <button
-                                onClick={() => navigate(`/course-preview/${course.id}`)}
-                                className="px-4 py-2 rounded-lg bg-[#2DD4BF] text-white text-xs font-semibold"
-                              >
-                                {t("common.enroll")}
-                              </button>
-                            </div>
-                          </div>
+                        <div className="absolute bottom-3 right-3 bg-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow">
+                          <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                          {course.rating}
                         </div>
-                      ));
-                    })()}
-                  </div>
+                      </div>
+
+                      <div className="p-4 space-y-3">
+                        <h3 className="text-sm font-semibold">
+                          {course.title}
+                        </h3>
+
+                        <p className="text-xs text-muted">
+                          {course.lessons} lessons • {course.level}
+                        </p>
+
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <span className="line-through text-sm text-slate-400 mr-2">
+                              {course.price}
+                            </span>
+                            <span className="font-bold text-green-600">₹0</span>
+                          </div>
+
+                          {/* Changed: redirect to course preview instead of opening enroll popup */}
+                          <button
+                            onClick={() => navigate(`/course-preview/${course.id}`)}
+                            className="px-4 py-2 rounded-lg bg-[#2DD4BF] text-white text-xs font-semibold"
+                          >
+                            {t("common.enroll")}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
               </div>
             )}
           </div>
         </main>
-      </div>
+
 
       {/* ================= ENROLL POPUP ================= */}
       {showEnrollPopup && selectedCourse && (
@@ -412,7 +330,7 @@ const CoursesPage = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

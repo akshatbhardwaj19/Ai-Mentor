@@ -1,8 +1,6 @@
 // frontend/src/pages/Settings.jsx
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import { useSidebar } from "../context/SidebarContext";
 import {
   User,
@@ -174,17 +172,8 @@ export default function Settings() {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-canvas-alt flex">
-      <Header />
-
-      <Sidebar activePage="settings" />
-
-      <div
-        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 mt-3 ${
-          sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
-        }`}
-      >
-        <div className="flex flex-col lg:flex-row flex-1 mt-16">
+    <>
+        <div className="flex flex-col lg:flex-row flex-1">
           {/* Settings Sidebar — hidden on mobile, visible on large screens */}
           <aside className="hidden lg:block w-[280px] flex-shrink-0 bg-card rounded-[24px] shadow-[0_4px_6px_0_rgba(0,0,0,0.10),0_10px_15px_0_rgba(0,0,0,0.10)] m-6 mr-0">
             <nav className="p-6">
@@ -884,7 +873,6 @@ export default function Settings() {
             )}
           </main>
         </div>
-      </div>
-    </div>
+    </>
   );
 }
