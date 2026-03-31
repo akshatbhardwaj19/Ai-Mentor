@@ -9,6 +9,7 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.2",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.9.0",
     "cors": "^2.8.5",
@@ -17,8 +18,10 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.1.1",
     "nodemailer": "^8.0.2",
+    "pdf-lib": "^1.17.1",
     "pg": "^8.18.0",
     "pg-hstore": "^2.3.4",
+    "react": "^19.2.4",
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
