@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useSidebar } from "../context/SidebarContext";
 import { useTranslation } from "react-i18next";
 import {
   MessageCircle,
@@ -93,7 +92,6 @@ const DiscussionsPage = () => {
   const getCategoryLabel = (cat) =>
     t(`discussions.${CATEGORY_KEY_MAP[cat]}`, cat);
   const { user } = useAuth();
-  const { sidebarCollapsed } = useSidebar();
   const token = localStorage.getItem("token");
 
   //top level state
@@ -694,7 +692,7 @@ const DiscussionsPage = () => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = () => {
       if (openDropdown) {
         setOpenDropdown(null);
       }

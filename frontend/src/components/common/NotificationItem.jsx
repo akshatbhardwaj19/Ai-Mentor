@@ -38,7 +38,7 @@ const getBgColor = (type) => {
 };
 
 const NotificationItem = ({ notification, onClick }) => {
-    const { id, title, message, time, type, unread } = notification;
+    const { title, message, time, type, unread } = notification;
 
     return (
         <div

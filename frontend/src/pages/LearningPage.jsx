@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useSidebar } from "../context/SidebarContext";
 import { getAIVideo } from "../service/aiService";
 import VideoPlayer from "../components/video/VideoPlayer";
 import AITranscript from "../components/video/AITranscript";
@@ -28,15 +27,15 @@ import {
 } from "lucide-react";
 
 // Sanitize filename to match backend logic: remove [\\/:*?"<>|], replace spaces with _
-function sanitizeFilename(name) {
-  return name.replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, "_");
-}
+// function sanitizeFilename(name) {
+//   return name.replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, "_");
+// }
 
-const getYouTubeVideoId = (url) => {
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-  const match = url.match(regExp);
-  return match && match[2].length === 11 ? match[2] : null;
-};
+// const getYouTubeVideoId = (url) => {
+//   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+//   const match = url.match(regExp);
+//   return match && match[2].length === 11 ? match[2] : null;
+// };
 
 export default function Learning() {
 
@@ -45,12 +44,9 @@ export default function Learning() {
   const navigate = useNavigate();
   const { id: courseId } = useParams();
   const { user, updateUser } = useAuth();
-  const { sidebarOpen, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed } = useSidebar();
   const [learningData, setLearningData] = useState(null)
   const [expandedModule, setExpandedModule] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
   const [celebritySearch, setCelebritySearch] = useState("");
-  const [activeTab, setActiveTab] = useState("transcript");
   const [isCelebrityModalOpen, setIsCelebrityModalOpen] = useState(false);
 
   // Captions state
@@ -76,7 +72,6 @@ export default function Learning() {
   const [currentTime, setCurrentTime] = useState(0);
   const [isNavigating, setIsNavigating] = useState(false);
   const [aiVideoUrl, setAiVideoUrl] = useState(null);
-  const [aiTranscript, setAiTranscript] = useState(null);
   const [isAIVideoLoading, setIsAIVideoLoading] = useState(false);
   const [generatedTextContent, setGeneratedTextContent] = useState("");
 
@@ -239,6 +234,7 @@ export default function Learning() {
           setLearningData(null);
         }
       } catch (error) {
+        console.log(error);
         setLearningData(null);
       }
     };
@@ -303,6 +299,7 @@ export default function Learning() {
         console.log(`✅ Parsed ${cues.length} captions from VTT`);
         setCaptions(cues);
       } catch (err) {
+        console.log(err);
         setCaptions([]);
       }
     };

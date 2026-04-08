@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useSidebar } from "../context/SidebarContext";
 import { useTranslation } from "react-i18next";
 import {
   Search,
@@ -25,12 +24,11 @@ import {
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const { sidebarOpen, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed } = useSidebar();
   const [coursesData, setCoursesData] = useState({
     statsCards: [],
     allCourses: [],
   });
-  const [searchQuery, setSearchQuery] = useState("");
+  const searchQuery = "";
   const [loading, setLoading] = useState(true);
   const { user, fetchUserProfile } = useAuth();
   const navigate = useNavigate();
@@ -311,19 +309,6 @@ const Dashboard = () => {
   });
 
   console.log("Final continueLearning:", continueLearning);
-
-  const schedule = [
-    {
-      title: "Machine Learning",
-      time: "10:00 AM - 11:30 AM",
-      color: "bg-blue-50 border-l-blue-500",
-    },
-    {
-      title: "React Development",
-      time: "2:00 PM - 3:30 PM",
-      color: "bg-green-50 border-l-green-500",
-    },
-  ];
 
   const handleBrowseCourses = () => {
     navigate("/courses", { state: { activeTab: "explore" } });

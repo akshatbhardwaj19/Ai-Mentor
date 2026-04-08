@@ -24,12 +24,10 @@ import {
   Menu
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useSidebar } from "../context/SidebarContext";
 import { useTranslation } from "react-i18next";
 
 const Analytics = () => {
   const { t, i18n } = useTranslation();
-  const { sidebarCollapsed } = useSidebar();
   const { user } = useAuth();
 
   const [courses, setCourses] = useState([]);
@@ -40,10 +38,8 @@ const Analytics = () => {
   const [newTask, setNewTask] = useState("");
   const [streak, setStreak] = useState(0);
   const [activeTab, setActiveTab] = useState("courses");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  
+  const searchQuery = "";
+
   // Initialize dark mode from localStorage
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -194,10 +190,10 @@ const Analytics = () => {
     });
   };
 
-  const getDateKey = (day) =>
-    formatDateKey(
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), day),
-    );
+  // const getDateKey = (day) =>
+  //   formatDateKey(
+  //     new Date(currentDate.getFullYear(), currentDate.getMonth(), day),
+  //   );
 
   const myCourses =
     user?.purchasedCourses?.map((c) => {

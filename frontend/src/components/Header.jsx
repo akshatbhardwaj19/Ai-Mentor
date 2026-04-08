@@ -14,12 +14,11 @@ import {
 } from "../service/notificationService";
 import toast from "react-hot-toast";
 
-const Header = ({ searchQuery = "", onSearchChange }) => {
+const Header = () => {
   const { t } = useTranslation();
   const { sidebarOpen, setSidebarOpen } = useSidebar();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  const [internalSearchQuery, setInternalSearchQuery] = useState("");
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -67,8 +66,6 @@ const Header = ({ searchQuery = "", onSearchChange }) => {
   }, [loadNotifications]);
 
   const unreadCount = notifications.filter(n => n.unread).length;
-  const effectiveSearchQuery =
-    typeof onSearchChange === "function" ? searchQuery : internalSearchQuery;
 
   // ReferenceError se bachne ke liye displayName ko sabse upar define karein
   const displayName = user?.name || user?.email?.split('@')[0] || "User";
@@ -113,6 +110,7 @@ const Header = ({ searchQuery = "", onSearchChange }) => {
       setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
       toast.success("Marked all as read");
     } catch (error) {
+      console.log(error);
       toast.error("Failed to mark all as read");
     }
   };
@@ -132,6 +130,7 @@ const Header = ({ searchQuery = "", onSearchChange }) => {
       setNotifications([]);
       toast.success("Notifications cleared");
     } catch (error) {
+      console.log(error);
       toast.error("Failed to clear notifications");
     }
   };

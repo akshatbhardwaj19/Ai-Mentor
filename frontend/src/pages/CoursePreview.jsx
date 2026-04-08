@@ -53,7 +53,7 @@ function buildImageCandidates(imagePath) {
 export default function CoursePreview() {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const { user, updateUser, fetchUserProfile } = useAuth();
+  const { user, fetchUserProfile } = useAuth();
 
   const [courseMeta, setCourseMeta] = useState(null);
   const [learningData, setLearningData] = useState(null);
@@ -61,7 +61,6 @@ export default function CoursePreview() {
   const [error, setError] = useState(null);
 
   const [isPurchasing, setIsPurchasing] = useState(false);
-  const purchaseLock = useRef(false);
 
   // module collapse
   const [openModules, setOpenModules] = useState({});
